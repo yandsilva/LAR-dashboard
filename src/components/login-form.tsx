@@ -7,12 +7,39 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { clearAllUserErrors, loginUser } from "@/store/slice/user-slice";
+import { toast } from "react-toastify";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
+  const { loading, isAuthenticated, error } = useAppSelector(
+    (state) => state.user
+  );
+  const navigateTo = useNavigate();
+
+  const handleLogin = (email: string, password: string) => {
+    dispatch(loginUser({ email, password }));
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearAllUserErrors());
+    }
+
+    if (isAuthenticated) {
+      navigateTo("/");
+    }
+  }, [isAuthenticated, error, loading, dispatch, navigateTo]);
+
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
       <FieldGroup>
@@ -27,6 +54,8 @@ export function LoginForm({
           <Input
             id="email"
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Insira seu e-mail"
             required
           />
@@ -44,12 +73,16 @@ export function LoginForm({
           <Input
             id="password"
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Insira sua senha"
             required
           />
         </Field>
         <Field>
-          <Button type="submit">Entrar</Button>
+          <Button onClick={() => handleLogin(email, password)} type="submit">
+            Entrar
+          </Button>
         </Field>
         <Field>
           <FieldDescription className="text-center">
