@@ -4,7 +4,7 @@ import ResetPassword from "@/pages/reset-password";
 import SignIn from "@/pages/sign-in";
 import SignUp from "@/pages/sign-up";
 import { Route, Routes } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 export function App() {
   return (
