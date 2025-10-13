@@ -5,6 +5,7 @@ import SignIn from "@/pages/sign-in";
 import SignUp from "@/pages/sign-up";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "./App.css";
 
 export function App() {
   return (
