@@ -16,12 +16,31 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
-
 import { projects } from "../data/data";
+import { useState } from "react";
+import { X } from "lucide-react";
+
+interface Data {
+  id: string;
+  title: string;
+  name: string;
+}
 
 export default function Dashboard() {
+  const [info, setInfo] = useState<Data | null>(null);
+
+  console.log(info);
+
+  function handleClick(data: { id: string; title: string; name: string }) {
+    setInfo(data);
+  }
+
+  function handleClose() {
+    setInfo(null);
+  }
+
   return (
-    <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+    <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 relative">
       <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
@@ -35,7 +54,7 @@ export default function Dashboard() {
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </CardDescription>
               </CardHeader>
-              <CardFooter>
+              {/* <CardFooter>
                 <Link
                   to={"#"}
                   // to={user.portfolioURL && user.portfolioURL}
@@ -43,31 +62,31 @@ export default function Dashboard() {
                 >
                   <Button>Visitar</Button>
                 </Link>
-              </CardFooter>
+              </CardFooter> */}
             </Card>
             <Card className="flex flex-col justify-center">
               <CardHeader className="pb-2">
-                <CardTitle>Projects Completed</CardTitle>
+                <CardTitle>Entrado em Contato</CardTitle>
                 <CardTitle className="text-5xl">
                   {/* {projects && projects.length}  */}9
                 </CardTitle>
               </CardHeader>
               <CardFooter>
                 <Link to={"/manage/projects"}>
-                  <Button>Manage Projects</Button>
+                  <Button>Ver mais</Button>
                 </Link>
               </CardFooter>
             </Card>
             <Card className="flex flex-col justify-center">
               <CardHeader className="pb-2">
-                <CardTitle>Skills</CardTitle>
+                <CardTitle>Não teve retorno</CardTitle>
                 <CardTitle className="text-5xl">
                   {/* {skills && skills.length} */}12
                 </CardTitle>
               </CardHeader>
               <CardFooter>
                 <Link to={"/manage/skills"}>
-                  <Button>Manage Skills</Button>
+                  <Button>Ver mais</Button>
                 </Link>
               </CardFooter>
             </Card>
@@ -76,7 +95,7 @@ export default function Dashboard() {
             <TabsContent value="projects">
               <Card>
                 <CardHeader>
-                  <CardTitle>Projects</CardTitle>
+                  <CardTitle>Pessoas</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>
@@ -106,18 +125,18 @@ export default function Dashboard() {
                                   {element.name}
                                 </div>
                               </TableCell>
-
                               <TableCell className="text-right">
-                                <Link
-                                  to={
-                                    element.projectLink
-                                      ? `${element.projectLink}`
-                                      : ""
+                                <Button
+                                  onClick={() =>
+                                    handleClick({
+                                      id: element._id,
+                                      title: element.title,
+                                      name: element.name,
+                                    })
                                   }
-                                  target="_blank"
                                 >
-                                  <Button>Visit</Button>
-                                </Link>
+                                  Visitar
+                                </Button>
                               </TableCell>
                             </TableRow>
                           );
@@ -125,7 +144,7 @@ export default function Dashboard() {
                       ) : (
                         <TableRow>
                           <TableCell className="text-3xl overflow-y-hidden">
-                            You have not added any projects.
+                            Você não tem nenhuma solicitação
                           </TableCell>
                         </TableRow>
                       )}
@@ -137,6 +156,29 @@ export default function Dashboard() {
           </Tabs>
         </div>
       </main>
+      {info && (
+        <div className="absolute flex top-0 right-0 w-full h-full items-center justify-center">
+          <div className="flex border-2 border-zinc-700 rounded-lg flex-col p-10 gap-4">
+            <div className="flex justify-between gap-30 items-center">
+              <p className="text-xl font-bold">
+                Nome: <span className="font-semibold">{info.name}</span>
+              </p>
+              <X onClick={handleClose} className="cursor-pointer" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="font-bold">
+                E-mail: <span className="font-semibold">yan@gmail.com</span>
+              </p>
+              <p className="font-bold">
+                Telefone: <span className="font-semibold">(14)9 9909-4499</span>
+              </p>
+              <p className="font-bold">
+                E-mail: <span className="font-semibold">yan@gmail.com</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
