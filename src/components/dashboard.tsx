@@ -18,7 +18,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { projects } from "../data/data";
 import { useState } from "react";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 interface Data {
   id: string;
@@ -158,23 +158,65 @@ export default function Dashboard() {
       </main>
       {info && (
         <div className="absolute flex top-0 right-0 w-full h-full items-center justify-center">
-          <div className="flex border-2 border-zinc-700 rounded-lg flex-col p-10 gap-4">
+          <div className="flex border-2 border-zinc-700 bg-[#18181b] text-zinc-100 rounded-lg flex-col p-10 gap-4">
             <div className="flex justify-between gap-30 items-center">
               <p className="text-xl font-bold">
                 Nome: <span className="font-semibold">{info.name}</span>
               </p>
               <X onClick={handleClose} className="cursor-pointer" />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-center gap-10">
+              <div className="flex flex-col gap-2">
+                <p className="font-bold">
+                  E-mail: <span className="font-semibold">yan@gmail.com</span>
+                </p>
+                <p className="font-bold">
+                  Telefone:{" "}
+                  <span className="font-semibold">(14)9 9909-4499</span>
+                </p>
+              </div>
+              <div className="w-0.5 h-10 bg-zinc-100" />
+              <div className="flex flex-col gap-2">
+                <p className="font-bold">
+                  Cidade: <span className="font-semibold">Bauru</span>
+                </p>
+                <p className="font-bold">
+                  Estado: <span className="font-semibold">São Paulo</span>
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
               <p className="font-bold">
-                E-mail: <span className="font-semibold">yan@gmail.com</span>
+                Assunto:{" "}
+                <span className="font-semibold">
+                  Tenho um problema por que sou muito burro!
+                </span>
               </p>
-              <p className="font-bold">
-                Telefone: <span className="font-semibold">(14)9 9909-4499</span>
-              </p>
-              <p className="font-bold">
-                E-mail: <span className="font-semibold">yan@gmail.com</span>
-              </p>
+              <div className="flex flex-col gap-1">
+                <p className="font-bold">O que você sente?</p>
+                <div className="grid grid-cols-4 gap-2">
+                  <p className="font-semibold">Ansieda</p>
+                  <p className="font-semibold">Ansieda</p>
+                  <p className="font-semibold">Cansaço</p>
+                  <p className="font-semibold">Preguiça</p>
+                  <p className="font-semibold">interesse</p>
+                  <p className="font-semibold">Sono</p>
+                  <p className="font-semibold">Sono</p>
+                  <p className="font-semibold">Sono</p>
+                  <p className="font-semibold">Sono</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center font-bold items-center">
+              <p>Conseguiu entrar em contato com pessoa?</p>
+              <div className="flex items-center justify-center gap-10 mt-2">
+                <Button className="bg-green-600 hover:bg-green-700 cursor-pointer">
+                  <Check />
+                </Button>
+                <Button className="bg-red-600 hover:bg-red-700 cursor-pointer">
+                  <X />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
