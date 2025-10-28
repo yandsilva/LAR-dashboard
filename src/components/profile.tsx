@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import minion from "../assets/minion.png";
 
 export default function Profile() {
   return (
@@ -18,7 +19,7 @@ export default function Profile() {
               <div className="grid gap-2 w-full sm:w-72">
                 <Label>Profile Image</Label>
                 <img
-                  src={""}
+                  src={minion}
                   alt="avatar"
                   className="w-full h-auto sm:w-72 sm:h-72 rounded-2xl"
                 />
@@ -26,7 +27,7 @@ export default function Profile() {
               <div className="grid gap-2 w-full sm:w-72">
                 <Label>Profile Image</Label>
                 <img
-                  src={""}
+                  src={minion}
                   alt="resume"
                   className="w-full h-auto sm:w-72 sm:h-72 rounded-2xl"
                 />

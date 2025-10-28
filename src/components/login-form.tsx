@@ -37,6 +37,7 @@ export function LoginForm({
 
     if (isAuthenticated) {
       navigateTo("/");
+      toast.success("Login realizado com sucesso!");
     }
   }, [isAuthenticated, error, loading, dispatch, navigateTo]);
 

@@ -21,7 +21,8 @@ interface UserState {
 const initialState: UserState = {
   loading: false,
   user: JSON.parse(localStorage.getItem("user") || "null"),
-  isAuthenticated: !!localStorage.getItem("token"),
+  isAuthenticated: true,
+  // isAuthenticated: !!localStorage.getItem("token"),
   error: null,
   message: null,
   isUpdate: false,
@@ -132,15 +133,16 @@ export const createUser =
 
     try {
       const { data } = await axios.post(
-        "",
+        "http://localhost:3000/institution/sign-up",
         { name, email, password },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          // withCredentials: true,
         }
       );
+      console.log(data);
       dispatch(userSlice.actions.createUserSuccess(data.user));
-      dispatch(userSlice.actions.clearAllErrors());
+      // dispatch(userSlice.actions.clearAllErrors());
     } catch (error: any) {
       dispatch(
         userSlice.actions.createUserFailed(
@@ -156,11 +158,11 @@ export const loginUser =
     dispatch(userSlice.actions.loginRequest());
     try {
       const { data } = await axios.post(
-        "",
+        "http://localhost:3000/institution/sign-in",
         { email, password },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          // withCredentials: true,
         }
       );
       dispatch(userSlice.actions.loginSuccess(data.user));

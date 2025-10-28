@@ -31,6 +31,8 @@ export function SignupForm({
     dispatch(createUser({ name, email, password }));
   };
 
+  
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -38,6 +40,7 @@ export function SignupForm({
     }
     if (isAuthenticated) {
       navigateTo("/");
+      toast.success("Conta criada com sucesso!");
     }
   }, [isAuthenticated, error, loading, dispatch, navigateTo]);
   return (
