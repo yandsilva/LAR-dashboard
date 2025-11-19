@@ -17,8 +17,8 @@ import {
   PencilRuler,
   User,
 } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -26,13 +26,31 @@ import Account from "@/components/account";
 import Dashboard from "@/components/dashboard";
 import Messages from "@/components/messages";
 import AddTimeline from "@/components/timeline";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { toast } from "react-toastify";
+import { clearAllUserErrors, logoutUser } from "@/store/slice/user-slice";
 
 export default function HomePage() {
   const [active, setActive] = useState("Dashboard");
-
+  const { isAuthenticated, error, user } = useAppSelector(
+    (state) => state.user
+  );
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
     console.log("Deslogou");
+    dispatch(logoutUser());
   };
+
+  const navigateTo = useNavigate();
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearAllUserErrors());
+    }
+    if (!isAuthenticated) {
+      navigateTo("/sign-in");
+    }
+  }, [isAuthenticated]);
 
   return (
     <>

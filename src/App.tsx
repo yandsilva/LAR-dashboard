@@ -6,8 +6,17 @@ import SignUp from "@/pages/sign-up";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
+import { useAppDispatch } from "@/store/store";
+import { useEffect } from "react";
+import { getUser } from "@/store/slice/user-slice";
 
 export function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+  });
+
   return (
     <>
       <Routes>

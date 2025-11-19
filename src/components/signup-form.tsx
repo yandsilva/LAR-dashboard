@@ -20,7 +20,6 @@ export function SignupForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useAppDispatch();
   const { loading, isAuthenticated, error } = useAppSelector(
     (state) => state.user
@@ -28,10 +27,9 @@ export function SignupForm({
   const navigateTo = useNavigate();
 
   const handleCreateUser = (name: string, email: string, password: string) => {
+    console.log(name, email, password);
     dispatch(createUser({ name, email, password }));
   };
-
-  
 
   useEffect(() => {
     if (error) {
@@ -39,12 +37,19 @@ export function SignupForm({
       dispatch(clearAllUserErrors());
     }
     if (isAuthenticated) {
-      navigateTo("/");
+      navigateTo("/sign-in");
       toast.success("Conta criada com sucesso!");
     }
   }, [isAuthenticated, error, loading, dispatch, navigateTo]);
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleCreateUser(name, email, password);
+      }}
+    >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Crie sua conta</h1>
@@ -53,7 +58,7 @@ export function SignupForm({
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="name">Nome Completo</FieldLabel>
+          <FieldLabel htmlFor="name">Nome da Empresa</FieldLabel>
           <Input
             id="name"
             type="text"
@@ -101,12 +106,7 @@ export function SignupForm({
           <FieldDescription>Por favor confirme sua senha.</FieldDescription>
         </Field> */}
         <Field>
-          <Button
-            onClick={() => handleCreateUser(name, email, password)}
-            type="submit"
-          >
-            Criar uma conta
-          </Button>
+          <Button type="submit">Criar uma conta</Button>
         </Field>
         <Field>
           <FieldDescription className="px-6 text-center">

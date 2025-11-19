@@ -23,6 +23,8 @@ export function LoginForm({
   const { loading, isAuthenticated, error } = useAppSelector(
     (state) => state.user
   );
+
+  console.log(isAuthenticated);
   const navigateTo = useNavigate();
 
   const handleLogin = (email: string, password: string) => {
@@ -42,7 +44,14 @@ export function LoginForm({
   }, [isAuthenticated, error, loading, dispatch, navigateTo]);
 
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin(email, password);
+      }}
+    >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Login</h1>
@@ -81,9 +90,7 @@ export function LoginForm({
           />
         </Field>
         <Field>
-          <Button onClick={() => handleLogin(email, password)} type="submit">
-            Entrar
-          </Button>
+          <Button type="submit">Entrar</Button>
         </Field>
         <Field>
           <FieldDescription className="text-center">

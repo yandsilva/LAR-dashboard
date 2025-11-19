@@ -20,9 +20,8 @@ interface UserState {
 
 const initialState: UserState = {
   loading: false,
-  user: JSON.parse(localStorage.getItem("user") || "null"),
-  isAuthenticated: true,
-  // isAuthenticated: !!localStorage.getItem("token"),
+  user: null,
+  isAuthenticated: false,
   error: null,
   message: null,
   isUpdate: false,
@@ -62,6 +61,26 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       state.error = action.payload;
       state.message = null;
+    },
+
+    //LOAD USER
+    loadUserRequest(state) {
+      state.loading = true;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.error = null;
+    },
+    loadUserSuccess(state, action: PayloadAction<UserProps>) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.error = null;
+    },
+    loadUserFailed(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.error = action.payload;
     },
 
     // LOGIN USER
@@ -130,19 +149,20 @@ export const createUser =
   ({ name, email, password }: CreateUserProps) =>
   async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.createUserRequest());
+    console.log(name, email, password);
 
     try {
       const { data } = await axios.post(
         "http://localhost:3000/institution/sign-up",
-        { name, email, password },
+        { EMPRESA: name, EMAIL: email, PASSWORD: password },
         {
           headers: { "Content-Type": "application/json" },
-          // withCredentials: true,
+          withCredentials: true,
         }
       );
       console.log(data);
       dispatch(userSlice.actions.createUserSuccess(data.user));
-      // dispatch(userSlice.actions.clearAllErrors());
+      dispatch(userSlice.actions.clearAllErrors());
     } catch (error: any) {
       dispatch(
         userSlice.actions.createUserFailed(
@@ -152,17 +172,34 @@ export const createUser =
     }
   };
 
+export const getUser = () => async (dispatch: AppDispatch) => {
+  dispatch(userSlice.actions.loadUserRequest());
+  try {
+    const { data } = await axios.get("http://localhost:3000/auth/me", {
+      withCredentials: true,
+    });
+    dispatch(userSlice.actions.loadUserSuccess(data.user));
+    dispatch(userSlice.actions.clearAllErrors());
+  } catch (error: any) {
+    dispatch(
+      userSlice.actions.loadUserFailed(
+        error.response.data.message || "Erro ao carregar usuário"
+      )
+    );
+  }
+};
+
 export const loginUser =
   ({ email, password }: LoginUserProps) =>
   async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.loginRequest());
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/institution/sign-in",
-        { email, password },
+        "http://localhost:3000/auth/login",
+        { EMAIL: email, PASSWORD: password },
         {
           headers: { "Content-Type": "application/json" },
-          // withCredentials: true,
+          withCredentials: true,
         }
       );
       dispatch(userSlice.actions.loginSuccess(data.user));
@@ -175,6 +212,18 @@ export const loginUser =
       );
     }
   };
+
+export const logoutUser = () => async (dispatch: AppDispatch) => {
+  try {
+    const { data } = await axios.post("http://localhost:3000/auth/logout", {
+      withCredentials: true,
+    });
+    dispatch(userSlice.actions.logoutSuccess(data.message));
+    dispatch(userSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(userSlice.actions.logoutFailed("Erro ao fazer logout"));
+  }
+};
 
 export const clearAllUserErrors = () => async (dispatch: AppDispatch) => {
   dispatch(userSlice.actions.clearAllErrors());
