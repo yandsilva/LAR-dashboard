@@ -18,7 +18,7 @@ export default function UpdatePassword() {
 
   return (
     <>
-      <div className="w-full h-full">
+      <form className="w-full h-full">
         <div>
           <div className="grid w-[100%] gap-6">
             <div className="grid gap-2">
@@ -58,22 +58,11 @@ export default function UpdatePassword() {
             </div>
 
             <div className="grid gap-2">
-              <Button
-                onClick={() =>
-                  handleUpdatePassword(
-                    currentPassword,
-                    newPassword,
-                    confirmNewPassword
-                  )
-                }
-                className="w-full"
-              >
-                Update Password
-              </Button>
+              <Button className="w-full">Update Password</Button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 }

@@ -38,6 +38,12 @@ interface LoginUserProps {
   password: string;
 }
 
+interface UpdatePasswordProps {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 const userSlice = createSlice({
   name: "users",
   initialState,
@@ -115,6 +121,24 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = false;
       state.user = null;
+      state.error = action.payload;
+    },
+
+    //UPDATE PASSWORD
+    updatePassworRequest(state) {
+      state.loading = true;
+      state.error = null;
+      state.isUpdate = false;
+    },
+    updatePasswordSuccess(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.isUpdate = true;
+      state.error = null;
+      state.message = action.payload;
+    },
+    updatePasswordFailed(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.isUpdate = false;
       state.error = action.payload;
     },
 
@@ -224,6 +248,29 @@ export const logoutUser = () => async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.logoutFailed("Erro ao fazer logout"));
   }
 };
+
+export const updatePassword =
+  ({ currentPassword, newPassword, confirmPassword }: UpdatePasswordProps) =>
+  async (dispatch: AppDispatch) => {
+    dispatch(userSlice.actions.updatePassworRequest());
+    try {
+      const { data } = await axios.put(
+        "http://localhost:3000/institution/change-password",
+        { currentPassword, newPassword, confirmPassword },
+        {
+          withCredentials: true,
+        }
+      );
+      dispatch(userSlice.actions.updatePasswordSuccess(data.message));
+      dispatch(userSlice.actions.clearAllErrors());
+    } catch (error) {
+      dispatch(
+        userSlice.actions.updatePasswordFailed(
+          "Erro ao atualizar a senha do usuário"
+        )
+      );
+    }
+  };
 
 export const clearAllUserErrors = () => async (dispatch: AppDispatch) => {
   dispatch(userSlice.actions.clearAllErrors());
