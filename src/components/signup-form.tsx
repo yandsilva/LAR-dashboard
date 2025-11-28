@@ -29,6 +29,8 @@ export function SignupForm({
   const handleCreateUser = (name: string, email: string, password: string) => {
     console.log(name, email, password);
     dispatch(createUser({ name, email, password }));
+    navigateTo("/sign-in");
+    toast.success("Conta criada com sucesso!");
   };
 
   useEffect(() => {
@@ -36,11 +38,8 @@ export function SignupForm({
       toast.error(error);
       dispatch(clearAllUserErrors());
     }
-    if (isAuthenticated) {
-      navigateTo("/sign-in");
-      toast.success("Conta criada com sucesso!");
-    }
   }, [isAuthenticated, error, loading, dispatch, navigateTo]);
+
   return (
     <form
       className={cn("flex flex-col gap-6", className)}

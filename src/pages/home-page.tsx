@@ -29,12 +29,14 @@ import AddTimeline from "@/components/timeline";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 import { clearAllUserErrors, logoutUser } from "@/store/slice/user-slice";
+import minion from "../assets/minion.png";
 
 export default function HomePage() {
   const [active, setActive] = useState("Dashboard");
   const { isAuthenticated, error, user } = useAppSelector(
     (state) => state.user
   );
+
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     console.log("Deslogou");
@@ -233,12 +235,12 @@ export default function HomePage() {
 
           <div className="flex items-center gap-4 md:grow-0 sm:ml-16 sm:mt-5">
             <img
-              src={""}
+              src={`http://localhost:3000${user?.IMAGE}` || minion}
               alt="avatar"
               className="w-20 h-20 rounded-full max-[900px]:hidden"
             />
             <h1 className="text-4xl max-[900px]:text-2xl">
-              Bem Vindo, Yan Silva
+              Bem Vindo, {user?.EMPRESA}
             </h1>
           </div>
         </header>

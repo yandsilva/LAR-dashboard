@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
-import { projects } from "../data/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
+import { useAppSelector } from "@/store/store";
 
 interface Data {
   id: string;
@@ -26,10 +26,58 @@ interface Data {
   name: string;
 }
 
+interface PrecisoAjudaProps {
+  ID: string;
+  NAME: string;
+  TELEFONE: string;
+  EMAIL: string;
+  ASSUNTO: string;
+  CIDADE: string;
+  ESTADO: string;
+  TREMOR: string;
+  CANSACO: string;
+  DESANIMO: string;
+  FALTAAR: string;
+  AGONIA: string;
+  FALTAFOCO: string;
+  ALTERACAOHUMOR: string;
+  SENSACAOCONEXAO: string;
+  PREOCUPACAOPESO: string;
+  PERDAINTERESSE: string;
+  ABUSOFISICO: string;
+  ABUSOPSICOLOGICO: string;
+  ABUSOSEXUAL: string;
+  ABUSOPATRIMONIAL: string;
+  ABUSOMORAL: string;
+}
+
 export default function Dashboard() {
   const [info, setInfo] = useState<Data | null>(null);
+  const [precisoAjuda, setPrecisoAjuda] = useState<PrecisoAjudaProps[] | null>(
+    []
+  );
 
-  console.log(info);
+  console.log(precisoAjuda);
+
+  const { user } = useAppSelector((state) => state.user);
+
+  async function handlePrecisoAjuda() {
+    const response = await fetch(
+      "http://localhost:3000/FormularioPrecisoAjuda",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+    setPrecisoAjuda(json);
+  }
+
+  useEffect(() => {
+    handlePrecisoAjuda();
+  }, []);
 
   function handleClick(data: { id: string; title: string; name: string }) {
     setInfo(data);
@@ -47,11 +95,7 @@ export default function Dashboard() {
             <Card className="sm:col-span-2">
               <CardHeader className="pb-3">
                 <CardDescription className="max-w-lg text-balance leading-relaxed ">
-                  {/* {user.aboutMe} */}
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                  {user?.ABOUT}
                 </CardDescription>
               </CardHeader>
               {/* <CardFooter>
@@ -111,31 +155,31 @@ export default function Dashboard() {
                           Visit
                         </TableHead>
                       </TableRow>
-                      {projects && projects.length > 0 ? (
-                        projects.map((element) => {
+                      {precisoAjuda && precisoAjuda.length > 0 ? (
+                        precisoAjuda.map((element) => {
                           return (
-                            <TableRow className="bg-accent" key={element._id}>
+                            <TableRow className="bg-accent" key={element.ID}>
                               <TableCell>
                                 <div className="font-semibold">
-                                  {element.title}
+                                  {element.ASSUNTO}
                                 </div>
                               </TableCell>
                               <TableCell>
                                 <div className="font-semibold">
-                                  {element.name}
+                                  {element.NAME}
                                 </div>
                               </TableCell>
                               <TableCell className="text-right">
                                 <Button
                                   onClick={() =>
                                     handleClick({
-                                      id: element._id,
-                                      title: element.title,
-                                      name: element.name,
+                                      id: element.ID,
+                                      title: element.ASSUNTO,
+                                      name: element.NAME,
                                     })
                                   }
                                 >
-                                  Visitar
+                                  Preciso de Ajuda
                                 </Button>
                               </TableCell>
                             </TableRow>
@@ -156,71 +200,108 @@ export default function Dashboard() {
           </Tabs>
         </div>
       </main>
-      {info && (
-        <div className="absolute flex top-0 right-0 w-full h-full items-center justify-center">
-          <div className="flex border-2 border-zinc-700 bg-[#18181b] text-zinc-100 rounded-lg flex-col p-10 gap-4">
-            <div className="flex justify-between gap-30 items-center">
-              <p className="text-xl font-bold">
-                Nome: <span className="font-semibold">{info.name}</span>
-              </p>
-              <X onClick={handleClose} className="cursor-pointer" />
-            </div>
-            <div className="flex items-center justify-center gap-10">
-              <div className="flex flex-col gap-2">
-                <p className="font-bold">
-                  E-mail: <span className="font-semibold">yan@gmail.com</span>
+      {info &&
+        precisoAjuda?.map((element) => (
+          <div
+            key={element.ID}
+            className="absolute flex top-0 right-0 w-full h-full items-center justify-center"
+          >
+            <div className="flex border-2 border-zinc-700 bg-[#18181b] text-zinc-100 rounded-lg flex-col p-10 gap-4">
+              <div className="flex justify-between gap-30 items-center">
+                <p className="text-xl font-bold">
+                  Nome: <span className="font-semibold">{element.NAME}</span>
                 </p>
-                <p className="font-bold">
-                  Telefone:{" "}
-                  <span className="font-semibold">(14)9 9909-4499</span>
-                </p>
+                <X onClick={handleClose} className="cursor-pointer" />
               </div>
-              <div className="w-0.5 h-10 bg-zinc-100" />
-              <div className="flex flex-col gap-2">
-                <p className="font-bold">
-                  Cidade: <span className="font-semibold">Bauru</span>
-                </p>
-                <p className="font-bold">
-                  Estado: <span className="font-semibold">São Paulo</span>
-                </p>
+              <div className="flex items-center justify-center gap-10">
+                <div className="flex flex-col gap-2">
+                  <p className="font-bold">
+                    E-mail:{" "}
+                    <span className="font-semibold">{element.EMAIL}</span>
+                  </p>
+                  <p className="font-bold">
+                    Telefone:{" "}
+                    <span className="font-semibold">{element.TELEFONE}</span>
+                  </p>
+                </div>
+                <div className="w-0.5 h-10 bg-zinc-100" />
+                <div className="flex flex-col gap-2">
+                  <p className="font-bold">
+                    Cidade:{" "}
+                    <span className="font-semibold">{element.CIDADE}</span>
+                  </p>
+                  <p className="font-bold">
+                    Estado:{" "}
+                    <span className="font-semibold">{element.ESTADO}</span>
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <p className="font-bold">
-                Assunto:{" "}
-                <span className="font-semibold">
-                  Tenho um problema por que sou muito burro!
-                </span>
-              </p>
-              <div className="flex flex-col gap-1">
-                <p className="font-bold">O que você sente?</p>
-                <div className="grid grid-cols-4 gap-2">
-                  <p className="font-semibold">Ansieda</p>
-                  <p className="font-semibold">Ansieda</p>
-                  <p className="font-semibold">Cansaço</p>
-                  <p className="font-semibold">Preguiça</p>
-                  <p className="font-semibold">interesse</p>
-                  <p className="font-semibold">Sono</p>
-                  <p className="font-semibold">Sono</p>
-                  <p className="font-semibold">Sono</p>
-                  <p className="font-semibold">Sono</p>
+              <div className="flex flex-col gap-4">
+                <p className="font-bold">
+                  Assunto:{" "}
+                  <span className="font-semibold">{element.ASSUNTO}</span>
+                </p>
+                <div className="flex flex-col gap-1">
+                  <p className="font-bold">O que você sente?</p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {element.TREMOR && <p className="font-semibold">Tremor</p>}
+                    {element.CANSACO && (
+                      <p className="font-semibold">Cansaço</p>
+                    )}
+                    {element.DESANIMO && (
+                      <p className="font-semibold">Desanimo</p>
+                    )}
+                    {element.FALTAAR && (
+                      <p className="font-semibold">Fata de Ar</p>
+                    )}
+                    {element.AGONIA && <p className="font-semibold">Agonia</p>}
+                    {element.FALTAFOCO && (
+                      <p className="font-semibold">Falta de Foco</p>
+                    )}
+                    {element.ALTERACAOHUMOR && (
+                      <p className="font-semibold">Alteração de Humor</p>
+                    )}
+                    {element.SENSACAOCONEXAO && (
+                      <p className="font-semibold">Sensação de desconexão</p>
+                    )}
+                    {element.PREOCUPACAOPESO && (
+                      <p className="font-semibold">Preocupação de Peso</p>
+                    )}
+                    {element.PERDAINTERESSE && (
+                      <p className="font-semibold">Perda de Interesse</p>
+                    )}
+                    {element.ABUSOPSICOLOGICO && (
+                      <p className="font-semibold">Abuso Psicologico</p>
+                    )}
+                    {element.ABUSOFISICO && (
+                      <p className="font-semibold">Abuso Fisico</p>
+                    )}
+                    {element.ABUSOSEXUAL && (
+                      <p className="font-semibold">Abuso Sexual</p>
+                    )}
+                    {element.ABUSOPATRIMONIAL && (
+                      <p className="font-semibold">Abuso Patrimonial</p>
+                    )}
+                    {element.ABUSOMORAL && (
+                      <p className="font-semibold">Abuso Moral</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center font-bold items-center">
+                <p>Conseguiu entrar em contato com pessoa?</p>
+                <div className="flex items-center justify-center gap-10 mt-2">
+                  <Button className="bg-green-600 hover:bg-green-700 cursor-pointer">
+                    <Check />
+                  </Button>
+                  <Button className="bg-red-600 hover:bg-red-700 cursor-pointer">
+                    <X />
+                  </Button>
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center font-bold items-center">
-              <p>Conseguiu entrar em contato com pessoa?</p>
-              <div className="flex items-center justify-center gap-10 mt-2">
-                <Button className="bg-green-600 hover:bg-green-700 cursor-pointer">
-                  <Check />
-                </Button>
-                <Button className="bg-red-600 hover:bg-red-700 cursor-pointer">
-                  <X />
-                </Button>
-              </div>
-            </div>
           </div>
-        </div>
-      )}
+        ))}
     </div>
   );
 }

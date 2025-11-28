@@ -23,8 +23,6 @@ export function LoginForm({
   const { loading, isAuthenticated, error } = useAppSelector(
     (state) => state.user
   );
-
-  console.log(isAuthenticated);
   const navigateTo = useNavigate();
 
   const handleLogin = (email: string, password: string) => {

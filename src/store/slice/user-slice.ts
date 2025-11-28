@@ -3,9 +3,15 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface UserProps {
-  id: string;
-  name: string;
-  email: string;
+  ABOUT?: string;
+  EMAIL: string;
+  EMPRESA: string;
+  FACEBOOK?: string;
+  ID: string;
+  IMAGE?: string;
+  INSTAGRAM?: string;
+  LINKEDIN?: string;
+  PHONE?: string;
   [key: string]: unknown;
 }
 
@@ -184,8 +190,7 @@ export const createUser =
           withCredentials: true,
         }
       );
-      console.log(data);
-      dispatch(userSlice.actions.createUserSuccess(data.user));
+      dispatch(userSlice.actions.createUserSuccess(data));
       dispatch(userSlice.actions.clearAllErrors());
     } catch (error: any) {
       dispatch(
@@ -202,7 +207,7 @@ export const getUser = () => async (dispatch: AppDispatch) => {
     const { data } = await axios.get("http://localhost:3000/auth/me", {
       withCredentials: true,
     });
-    dispatch(userSlice.actions.loadUserSuccess(data.user));
+    dispatch(userSlice.actions.loadUserSuccess(data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error: any) {
     dispatch(
