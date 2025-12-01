@@ -1,24 +1,50 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { clearAllUserErrors, updatePassword } from "@/store/slice/user-slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function UpdatePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { loading, isAuthenticated, error } = useAppSelector(
+    (state) => state.user
+  );
+  const dispatch = useAppDispatch();
+  const navidateTo = useNavigate();
 
   const handleUpdatePassword = (
     currentPassword: string,
     newPassword: string,
-    confirmNewPassword: string
+    confirmPassword: string
   ) => {
-    console.log(currentPassword, newPassword, confirmNewPassword);
+    dispatch(updatePassword({ currentPassword, newPassword, confirmPassword }));
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearAllUserErrors());
+    }
+
+    if (isAuthenticated) {
+      navidateTo("/");
+    }
+  }, []);
 
   return (
     <>
-      <form className="w-full h-full">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleUpdatePassword(currentPassword, newPassword, confirmPassword);
+        }}
+        className="w-full h-full"
+      >
         <div>
           <div className="grid w-[100%] gap-6">
             <div className="grid gap-2">
@@ -52,8 +78,8 @@ export default function UpdatePassword() {
               <Input
                 type="text"
                 placeholder="Confirm New Password"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 

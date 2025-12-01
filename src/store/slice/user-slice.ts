@@ -149,6 +149,30 @@ const userSlice = createSlice({
     },
 
     // UPDATE USER
+    updateProfileRequest(state) {
+      state.loading = true;
+      state.isUpdate = false;
+      state.message = null;
+      state.error = null;
+    },
+    updateProfileSuccess(state, action) {
+      state.loading = false;
+      state.isUpdate = true;
+      state.message = action.payload;
+      state.error = null;
+    },
+    updateProfileFailed(state, action) {
+      state.loading = false;
+      state.isUpdate = false;
+      state.message = null;
+      state.error = action.payload;
+    },
+    updateProfileResetAfterUpdate(state) {
+      state.error = null;
+      state.isUpdate = false;
+      state.message = null;
+    },
+
     verifyTokenRequest(state) {
       state.loading = true;
       state.isAuthenticated = false;
@@ -208,6 +232,7 @@ export const getUser = () => async (dispatch: AppDispatch) => {
       withCredentials: true,
     });
     dispatch(userSlice.actions.loadUserSuccess(data));
+    console.log(data);
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error: any) {
     dispatch(
@@ -276,6 +301,32 @@ export const updatePassword =
       );
     }
   };
+
+export const updateProfile =
+  (formData: FormData) => async (dispatch: AppDispatch) => {
+    dispatch(userSlice.actions.updateProfileRequest());
+    console.log(formData);
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/institution/update-profile",
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      dispatch(userSlice.actions.updateProfileSuccess(response.data.message));
+      dispatch(userSlice.actions.clearAllErrors());
+    } catch (error: any) {
+      dispatch(
+        userSlice.actions.updateProfileFailed(error.response.data.message)
+      );
+    }
+  };
+
+export const resetProfile = () => (dispatch: AppDispatch) => {
+  dispatch(userSlice.actions.updateProfileResetAfterUpdate());
+};
 
 export const clearAllUserErrors = () => async (dispatch: AppDispatch) => {
   dispatch(userSlice.actions.clearAllErrors());

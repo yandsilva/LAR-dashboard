@@ -5,16 +5,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-  FolderGit,
   History,
   Home,
-  LayoutGrid,
   LogOut,
   MessageSquareMore,
   Package,
   Package2,
   PanelLeft,
-  PencilRuler,
   User,
 } from "lucide-react";
 import { useEffect, useState } from "react";

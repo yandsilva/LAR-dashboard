@@ -27,7 +27,6 @@ export function SignupForm({
   const navigateTo = useNavigate();
 
   const handleCreateUser = (name: string, email: string, password: string) => {
-    console.log(name, email, password);
     dispatch(createUser({ name, email, password }));
     navigateTo("/sign-in");
     toast.success("Conta criada com sucesso!");
