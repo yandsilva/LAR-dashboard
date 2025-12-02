@@ -37,7 +37,6 @@ export default function HomePage() {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutUser());
-    console.log("Deslogou");
   };
 
   const navigateTo = useNavigate();

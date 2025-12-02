@@ -22,7 +22,6 @@ const UpdateProfile = () => {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const [portfolioURL, setPortfolioURL] = useState("");
   const [linkedInURL, setLinkedInURL] = useState("");
   const [instagramURL, setInstagramURL] = useState("");
   const [facebookURL, setFacebookURL] = useState("");
@@ -33,15 +32,14 @@ const UpdateProfile = () => {
     formData.append("EMPRESA", fullName);
     formData.append("PHONE", phone);
     formData.append("ABOUT", aboutMe);
-    formData.append("PORTFOLIO", portfolioURL);
     formData.append("LINKEDIN", linkedInURL);
     formData.append("INSTAGRAM", instagramURL);
     formData.append("FACEBOOK", facebookURL);
 
-    if (avatar) formData.append("IMAGE", avatar); // 👈 Agora sim, FILE real!
+    if (avatar) formData.append("IMAGE", avatar);
 
     dispatch(updateProfile(formData));
-    for (let pair of formData.entries()) console.log(pair); // test logs
+    for (let pair of formData.entries()) console.log(pair);
   };
 
   useEffect(() => {
@@ -95,12 +93,6 @@ const UpdateProfile = () => {
           <Textarea
             value={aboutMe}
             onChange={(e) => setAboutMe(e.target.value)}
-          />
-
-          <Label>Portfolio</Label>
-          <Input
-            value={portfolioURL}
-            onChange={(e) => setPortfolioURL(e.target.value)}
           />
 
           <Label>LinkedIn</Label>

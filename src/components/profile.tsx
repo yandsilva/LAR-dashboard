@@ -7,8 +7,6 @@ import { useAppSelector } from "@/store/store";
 export default function Profile() {
   const { user } = useAppSelector((state) => state.user);
 
-  console.log(user);
-
   return (
     <>
       <div className="w-full h-full">
@@ -40,23 +38,27 @@ export default function Profile() {
             </div>
             <div className="grid gap-2">
               <Label>Telefone</Label>
-              <Input type="text" defaultValue={user?.PHONE} disabled />
+              <Input
+                type="text"
+                defaultValue={user?.institution?.PHONE}
+                disabled
+              />
             </div>
             <div className="grid gap-2">
               <Label>Sobre</Label>
-              <Textarea defaultValue={user?.ABOUT} disabled />
+              <Textarea defaultValue={user?.institution?.ABOUT} disabled />
             </div>
             <div className="grid gap-2">
               <Label>LinkedIn URL</Label>
-              <Input defaultValue={user?.LINKEDIN} disabled />
+              <Input defaultValue={user?.institution?.LINKEDIN} disabled />
             </div>
             <div className="grid gap-2">
               <Label>Instagram URL</Label>
-              <Input defaultValue={user?.INSTAGRAM} disabled />
+              <Input defaultValue={user?.institution?.INSTAGRAM} disabled />
             </div>
             <div className="grid gap-2">
               <Label>Facebook URL</Label>
-              <Input defaultValue={user?.FACEBOOK} disabled />
+              <Input defaultValue={user?.institution?.FACEBOOK} disabled />
             </div>
           </div>
         </div>

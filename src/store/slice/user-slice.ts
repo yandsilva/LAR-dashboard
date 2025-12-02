@@ -203,7 +203,6 @@ export const createUser =
   ({ name, email, password }: CreateUserProps) =>
   async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.createUserRequest());
-    console.log(name, email, password);
 
     try {
       const { data } = await axios.post(
@@ -232,7 +231,6 @@ export const getUser = () => async (dispatch: AppDispatch) => {
       withCredentials: true,
     });
     dispatch(userSlice.actions.loadUserSuccess(data));
-    console.log(data);
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error: any) {
     dispatch(
@@ -309,7 +307,6 @@ export const updatePassword =
 export const updateProfile =
   (formData: FormData) => async (dispatch: AppDispatch) => {
     dispatch(userSlice.actions.updateProfileRequest());
-    console.log(formData);
     try {
       const response = await axios.put(
         "http://localhost:3000/institution/update-profile",

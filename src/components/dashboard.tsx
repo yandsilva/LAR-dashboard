@@ -57,8 +57,6 @@ export default function Dashboard() {
     []
   );
 
-  console.log(precisoAjuda);
-
   const { user } = useAppSelector((state) => state.user);
 
   async function handlePrecisoAjuda() {
@@ -73,7 +71,6 @@ export default function Dashboard() {
     );
     const json = await response.json();
     setPrecisoAjuda(json);
-    console.log(json);
   }
 
   useEffect(() => {
