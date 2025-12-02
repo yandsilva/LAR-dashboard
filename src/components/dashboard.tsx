@@ -51,11 +51,21 @@ interface PrecisoAjudaProps {
   ABUSOMORAL: string;
 }
 
+interface QueroAjudarProps {
+  NAME: string;
+  TELEFONE: string;
+  EMAIL: string;
+  VALOR: string;
+  CIDADE: string;
+  ESTADO: string;
+}
+
 export default function Dashboard() {
   const [info, setInfo] = useState<Data | null>(null);
   const [precisoAjuda, setPrecisoAjuda] = useState<PrecisoAjudaProps[] | null>(
     []
   );
+  const [queroAjudar, setQueroAjudar] = useState<QueroAjudarProps[] | null>([]);
 
   const { user } = useAppSelector((state) => state.user);
 
@@ -72,9 +82,23 @@ export default function Dashboard() {
     const json = await response.json();
     setPrecisoAjuda(json);
   }
+  async function handleQueroAjudar() {
+    const response = await fetch(
+      "http://localhost:3000/FormularioQueroAjudar",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+    setPrecisoAjuda(json);
+  }
 
   useEffect(() => {
     handlePrecisoAjuda();
+    handleQueroAjudar();
   }, []);
 
   function handleClick(data: { id: string; title: string; name: string }) {
@@ -93,7 +117,7 @@ export default function Dashboard() {
             <Card className="sm:col-span-2">
               <CardHeader className="pb-3">
                 <CardDescription className="max-w-lg text-balance leading-relaxed ">
-                  {user?.ABOUT}
+                  {user?.institution.ABOUT}
                 </CardDescription>
               </CardHeader>
               {/* <CardFooter>
@@ -110,20 +134,20 @@ export default function Dashboard() {
               <CardHeader className="pb-2">
                 <CardTitle>Entrado em Contato</CardTitle>
                 <CardTitle className="text-5xl">
-                  {/* {projects && projects.length}  */}9
+                  {precisoAjuda && precisoAjuda.length}
                 </CardTitle>
               </CardHeader>
-              <CardFooter>
+              {/* <CardFooter>
                 <Link to={"/manage/projects"}>
                   <Button>Ver mais</Button>
                 </Link>
-              </CardFooter>
+              </CardFooter> */}
             </Card>
-            <Card className="flex flex-col justify-center">
+            {/* <Card className="flex flex-col justify-center">
               <CardHeader className="pb-2">
                 <CardTitle>Não teve retorno</CardTitle>
                 <CardTitle className="text-5xl">
-                  {/* {skills && skills.length} */}12
+                  {precisoAjuda && precisoAjuda.length}
                 </CardTitle>
               </CardHeader>
               <CardFooter>
@@ -131,7 +155,7 @@ export default function Dashboard() {
                   <Button>Ver mais</Button>
                 </Link>
               </CardFooter>
-            </Card>
+            </Card> */}
           </div>
           <Tabs defaultValue="projects">
             <TabsContent value="projects">
@@ -150,7 +174,62 @@ export default function Dashboard() {
                           Nome
                         </TableHead>
                         <TableHead className="w-1/3 text-zinc-400">
-                          Visit
+                          Informações
+                        </TableHead>
+                      </TableRow>
+                      {precisoAjuda && precisoAjuda.length > 0 ? (
+                        precisoAjuda.map((element) => {
+                          return (
+                            <TableRow className="bg-accent" key={element.ID}>
+                              <TableCell>
+                                <div className="font-semibold">
+                                  {element.ASSUNTO}
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="font-semibold">
+                                  {element.NAME}
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <Button
+                                  onClick={() =>
+                                    handleClick({
+                                      id: element.ID,
+                                      title: element.ASSUNTO,
+                                      name: element.NAME,
+                                    })
+                                  }
+                                >
+                                  Preciso de Ajuda
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })
+                      ) : (
+                        <TableRow>
+                          <TableCell className="text-3xl overflow-y-hidden">
+                            Você não tem nenhuma solicitação
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableHeader>
+                  </Table>
+                </CardContent>
+
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="hover:bg-white">
+                        <TableHead className="w-2/3 text-zinc-400">
+                          Titulo
+                        </TableHead>
+                        <TableHead className="w-1/3 text-zinc-400">
+                          Nome
+                        </TableHead>
+                        <TableHead className="w-1/3 text-zinc-400">
+                          Informações
                         </TableHead>
                       </TableRow>
                       {precisoAjuda && precisoAjuda.length > 0 ? (

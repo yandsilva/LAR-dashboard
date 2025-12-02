@@ -34,7 +34,7 @@ export default function UpdatePassword() {
     if (isAuthenticated) {
       navidateTo("/");
     }
-  }, []);
+  }, [isAuthenticated, error]);
 
   return (
     <>
