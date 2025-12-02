@@ -7,6 +7,8 @@ import { useAppSelector } from "@/store/store";
 export default function Profile() {
   const { user } = useAppSelector((state) => state.user);
 
+  console.log(user);
+
   return (
     <>
       <div className="w-full h-full">
@@ -30,7 +32,7 @@ export default function Profile() {
             </div>
             <div className="grid gap-2">
               <Label>Nome da Empresa</Label>
-              <Input type="text" defaultValue={user?.EMPRESA} disabled />
+              <Input type="text" defaultValue={user?.NAME} disabled />
             </div>
             <div className="grid gap-2">
               <Label>E-mail</Label>

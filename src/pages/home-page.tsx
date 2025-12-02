@@ -36,8 +36,8 @@ export default function HomePage() {
 
   const dispatch = useAppDispatch();
   const handleLogout = () => {
-    console.log("Deslogou");
     dispatch(logoutUser());
+    console.log("Deslogou");
   };
 
   const navigateTo = useNavigate();
@@ -237,7 +237,7 @@ export default function HomePage() {
               className="w-20 h-20 rounded-full max-[900px]:hidden"
             />
             <h1 className="text-4xl max-[900px]:text-2xl">
-              Bem Vindo, {user?.EMPRESA}
+              Bem Vindo, {user?.NAME}
             </h1>
           </div>
         </header>

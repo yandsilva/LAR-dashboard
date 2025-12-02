@@ -5,7 +5,7 @@ import axios from "axios";
 interface UserProps {
   ABOUT?: string;
   EMAIL: string;
-  EMPRESA: string;
+  NAME: string;
   FACEBOOK?: string;
   ID: string;
   IMAGE?: string;
@@ -269,9 +269,13 @@ export const loginUser =
 
 export const logoutUser = () => async (dispatch: AppDispatch) => {
   try {
-    const { data } = await axios.post("http://localhost:3000/auth/logout", {
-      withCredentials: true,
-    });
+    const { data } = await axios.post(
+      "http://localhost:3000/auth/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     dispatch(userSlice.actions.logoutSuccess(data.message));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {

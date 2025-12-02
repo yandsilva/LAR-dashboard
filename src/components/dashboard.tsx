@@ -73,6 +73,7 @@ export default function Dashboard() {
     );
     const json = await response.json();
     setPrecisoAjuda(json);
+    console.log(json);
   }
 
   useEffect(() => {
