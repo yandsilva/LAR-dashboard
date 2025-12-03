@@ -206,7 +206,7 @@ export const createUser =
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/institution/sign-up",
+        "https://lar-backend.onrender.com/institution/sign-up",
         { EMPRESA: name, EMAIL: email, PASSWORD: password },
         {
           headers: { "Content-Type": "application/json" },
@@ -227,9 +227,12 @@ export const createUser =
 export const getUser = () => async (dispatch: AppDispatch) => {
   dispatch(userSlice.actions.loadUserRequest());
   try {
-    const { data } = await axios.get("http://localhost:3000/auth/me", {
-      withCredentials: true,
-    });
+    const { data } = await axios.get(
+      "https://lar-backend.onrender.com/auth/me",
+      {
+        withCredentials: true,
+      }
+    );
     dispatch(userSlice.actions.loadUserSuccess(data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error: any) {
@@ -247,7 +250,7 @@ export const loginUser =
     dispatch(userSlice.actions.loginRequest());
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/auth/login",
+        "https://lar-backend.onrender.com/auth/login",
         { EMAIL: email, PASSWORD: password },
         {
           headers: { "Content-Type": "application/json" },
@@ -268,7 +271,7 @@ export const loginUser =
 export const logoutUser = () => async (dispatch: AppDispatch) => {
   try {
     const { data } = await axios.post(
-      "http://localhost:3000/auth/logout",
+      "https://lar-backend.onrender.com/auth/logout",
       {},
       {
         withCredentials: true,
@@ -287,7 +290,7 @@ export const updatePassword =
     dispatch(userSlice.actions.updatePassworRequest());
     try {
       const { data } = await axios.put(
-        "http://localhost:3000/institution/change-password",
+        "https://lar-backend.onrender.com/institution/change-password",
         { currentPassword, newPassword, confirmPassword },
         {
           withCredentials: true,
@@ -309,7 +312,7 @@ export const updateProfile =
     dispatch(userSlice.actions.updateProfileRequest());
     try {
       const response = await axios.put(
-        "http://localhost:3000/institution/update-profile",
+        "https://lar-backend.onrender.com/institution/update-profile",
         formData,
         {
           withCredentials: true,

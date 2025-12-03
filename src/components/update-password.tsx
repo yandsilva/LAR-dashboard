@@ -11,9 +11,7 @@ export default function UpdatePassword() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { loading, isAuthenticated, error } = useAppSelector(
-    (state) => state.user
-  );
+  const { isAuthenticated, error } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navidateTo = useNavigate();
 

@@ -21,8 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Account from "@/components/account";
 import Dashboard from "@/components/dashboard";
-import Messages from "@/components/messages";
-import AddTimeline from "@/components/timeline";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { toast } from "react-toastify";
 import { clearAllUserErrors, logoutUser } from "@/store/slice/user-slice";
@@ -75,43 +73,6 @@ export default function HomePage() {
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">Dashboard</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                      active === "Add Timeline"
-                        ? "text-accent-foreground bg-accent"
-                        : "text-muted-foreground"
-                    } transition-colors hover:text-foreground md:h-8 md:w-8`}
-                    onClick={() => setActive("Add Timeline")}
-                  >
-                    <History className="w-5 h-5" />
-                    <span className="sr-only">Add Timeline</span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side="right">Add Timeline</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg ${
-                      active === "Messages"
-                        ? "text-accent-foreground bg-accent"
-                        : "text-muted-foreground"
-                    } transition-colors hover:text-foreground md:h-8 md:w-8`}
-                    onClick={() => setActive("Messages")}
-                  >
-                    <MessageSquareMore className="w-5 h-5" />
-                    <span className="sr-only">Messages</span>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side="right">Messages</TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
@@ -246,12 +207,7 @@ export default function HomePage() {
             case "Dashboard":
               return <Dashboard />;
               break;
-            case "Add Timeline":
-              return <AddTimeline />;
-              break;
-            case "Messages":
-              return <Messages />;
-              break;
+
             case "Account":
               return <Account />;
               break;

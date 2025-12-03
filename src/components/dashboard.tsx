@@ -78,7 +78,7 @@ export default function Dashboard() {
 
   async function handlePrecisoAjuda() {
     const response = await fetch(
-      "http://localhost:3000/FormularioPrecisoAjuda",
+      "https://lar-backend.onrender.com/FormularioPrecisoAjuda",
       {
         method: "GET",
         headers: {
@@ -91,7 +91,7 @@ export default function Dashboard() {
   }
   async function handleQueroAjudar() {
     const response = await fetch(
-      "http://localhost:3000/FormularioQueroAjudar",
+      "https://lar-backend.onrender.com/FormularioQueroAjudar",
       {
         method: "GET",
         headers: {

@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { clearAllUserErrors, loginUser } from "@/store/slice/user-slice";
+import { clearAllUserErrors } from "@/store/slice/user-slice";
 import { toast } from "react-toastify";
 
 export function ForgetPasswordForm({
@@ -23,10 +23,6 @@ export function ForgetPasswordForm({
     (state) => state.user
   );
   const navigateTo = useNavigate();
-
-  const handleLogin = (email: string, password: string) => {
-    dispatch(loginUser({ email, password }));
-  };
 
   useEffect(() => {
     if (error) {
