@@ -55,14 +55,14 @@ export default function HomePage() {
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <aside className="fixed inset-y-0 left-0 hidden w-14 flex-col border-r bg-background sm:flex z-50">
           <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-            <Link className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full">
+            <div className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full">
               <Package className="h-6 w-6 transition-all group-hover:scale-110" />
               <span className="sr-only">Dashboard</span>
-            </Link>
+            </div>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link
+                  <div
                     className={`flex h-9 w-9 items-center justify-center rounded-lg ${
                       active === "Dashboard"
                         ? "text-accent-foreground bg-accent"
@@ -72,7 +72,7 @@ export default function HomePage() {
                   >
                     <Home className="w-5 h-5" />
                     <span className="sr-only">Dashboard</span>
-                  </Link>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">Dashboard</TooltipContent>
               </Tooltip>
@@ -80,7 +80,7 @@ export default function HomePage() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link
+                  <div
                     className={`flex h-9 w-9 items-center justify-center rounded-lg ${
                       active === "Add Timeline"
                         ? "text-accent-foreground bg-accent"
@@ -90,7 +90,7 @@ export default function HomePage() {
                   >
                     <History className="w-5 h-5" />
                     <span className="sr-only">Add Timeline</span>
-                  </Link>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">Add Timeline</TooltipContent>
               </Tooltip>
@@ -99,7 +99,7 @@ export default function HomePage() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link
+                  <div
                     className={`flex h-9 w-9 items-center justify-center rounded-lg ${
                       active === "Messages"
                         ? "text-accent-foreground bg-accent"
@@ -109,7 +109,7 @@ export default function HomePage() {
                   >
                     <MessageSquareMore className="w-5 h-5" />
                     <span className="sr-only">Messages</span>
-                  </Link>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">Messages</TooltipContent>
               </Tooltip>
@@ -118,7 +118,7 @@ export default function HomePage() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link
+                  <div
                     className={`flex h-9 w-9 items-center justify-center rounded-lg ${
                       active === "Account"
                         ? "text-accent-foreground bg-accent"
@@ -128,7 +128,7 @@ export default function HomePage() {
                   >
                     <User className="w-5 h-5" />
                     <span className="sr-only">Account</span>
-                  </Link>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">Account</TooltipContent>
               </Tooltip>
@@ -138,7 +138,7 @@ export default function HomePage() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link
+                  <div
                     className={`flex h-9 w-9 items-center justify-center rounded-lg ${
                       active === "Logout"
                         ? "text-accent-foreground bg-accent"
@@ -148,7 +148,7 @@ export default function HomePage() {
                   >
                     <LogOut className="w-5 h-5" />
                     <span className="sr-only">Logout</span>
-                  </Link>
+                  </div>
                 </TooltipTrigger>
                 <TooltipContent side="right">Logout</TooltipContent>
               </Tooltip>
@@ -165,10 +165,10 @@ export default function HomePage() {
             </SheetTrigger>
             <SheetContent side="left" className="sm:max-w-xs">
               <nav className="grid gap-6 text-lg font-medium">
-                <Link className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base">
+                <div className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base">
                   <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-                </Link>
-                <Link
+                </div>
+                <div
                   className={`flex items-center gap-4 px-2.5 ${
                     active === "Dashboard"
                       ? "text-foreground"
@@ -178,10 +178,10 @@ export default function HomePage() {
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
-                </Link>
+                </div>
 
                 <Link
-                  href="#"
+                  to="#"
                   className={`flex items-center gap-4 px-2.5 ${
                     active === "Add Timeline"
                       ? "text-foreground"
@@ -194,7 +194,7 @@ export default function HomePage() {
                 </Link>
 
                 <Link
-                  href="#"
+                  to="#"
                   className={`flex items-center gap-4 px-2.5 ${
                     active === "Message"
                       ? "text-foreground"
@@ -206,7 +206,7 @@ export default function HomePage() {
                   Message
                 </Link>
                 <Link
-                  href="#"
+                  to="#"
                   className={`flex items-center gap-4 px-2.5 ${
                     active === "Account"
                       ? "text-foreground"
@@ -218,13 +218,13 @@ export default function HomePage() {
                   Account
                 </Link>
 
-                <Link
+                <div
                   className={`flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground`}
                   onClick={handleLogout}
                 >
                   <LogOut className="h-5 w-5" />
                   Logout
-                </Link>
+                </div>
               </nav>
             </SheetContent>
           </Sheet>

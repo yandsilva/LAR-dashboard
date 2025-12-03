@@ -38,27 +38,23 @@ export default function Profile() {
             </div>
             <div className="grid gap-2">
               <Label>Telefone</Label>
-              <Input
-                type="text"
-                defaultValue={user?.institution?.PHONE}
-                disabled
-              />
+              <Input type="text" defaultValue={user?.PHONE} disabled />
             </div>
             <div className="grid gap-2">
               <Label>Sobre</Label>
-              <Textarea defaultValue={user?.institution?.ABOUT} disabled />
+              <Textarea defaultValue={user?.ABOUT} disabled />
             </div>
             <div className="grid gap-2">
               <Label>LinkedIn URL</Label>
-              <Input defaultValue={user?.institution?.LINKEDIN} disabled />
+              <Input defaultValue={user?.LINKEDIN} disabled />
             </div>
             <div className="grid gap-2">
               <Label>Instagram URL</Label>
-              <Input defaultValue={user?.institution?.INSTAGRAM} disabled />
+              <Input defaultValue={user?.INSTAGRAM} disabled />
             </div>
             <div className="grid gap-2">
               <Label>Facebook URL</Label>
-              <Input defaultValue={user?.institution?.FACEBOOK} disabled />
+              <Input defaultValue={user?.FACEBOOK} disabled />
             </div>
           </div>
         </div>

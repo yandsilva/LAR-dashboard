@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -16,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useAppSelector } from "@/store/store";
 
 interface Data {
