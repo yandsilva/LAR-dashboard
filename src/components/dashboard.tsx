@@ -15,7 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
 import { useAppSelector } from "@/store/store";
@@ -23,6 +22,11 @@ import { useAppSelector } from "@/store/store";
 interface Data {
   id: string;
   title: string;
+  name: string;
+}
+
+interface DataProps {
+  id: string;
   name: string;
 }
 
@@ -52,6 +56,7 @@ interface PrecisoAjudaProps {
 }
 
 interface QueroAjudarProps {
+  ID: string;
   NAME: string;
   TELEFONE: string;
   EMAIL: string;
@@ -61,9 +66,12 @@ interface QueroAjudarProps {
 }
 
 export default function Dashboard() {
-  const [info, setInfo] = useState<Data | null>(null);
+  const [infoPrecisoAjuda, setInfoPrecisoAjuda] = useState<Data | null>(null);
   const [precisoAjuda, setPrecisoAjuda] = useState<PrecisoAjudaProps[] | null>(
     []
+  );
+  const [infoQueroAjudar, setInfoQueroAjudar] = useState<DataProps | null>(
+    null
   );
   const [queroAjudar, setQueroAjudar] = useState<QueroAjudarProps[] | null>([]);
 
@@ -93,7 +101,8 @@ export default function Dashboard() {
       }
     );
     const json = await response.json();
-    setPrecisoAjuda(json);
+    setQueroAjudar(json);
+    console.log(json);
   }
 
   useEffect(() => {
@@ -102,11 +111,17 @@ export default function Dashboard() {
   }, []);
 
   function handleClick(data: { id: string; title: string; name: string }) {
-    setInfo(data);
+    setInfoPrecisoAjuda(data);
+  }
+  function handleClick2(data: { id: string; name: string }) {
+    setInfoQueroAjudar(data);
   }
 
   function handleClose() {
-    setInfo(null);
+    setInfoPrecisoAjuda(null);
+  }
+  function handleClose2() {
+    setInfoQueroAjudar(null);
   }
 
   return (
@@ -117,7 +132,7 @@ export default function Dashboard() {
             <Card className="sm:col-span-2">
               <CardHeader className="pb-3">
                 <CardDescription className="max-w-lg text-balance leading-relaxed ">
-                  {user?.institution.ABOUT}
+                  {user?.ABOUT}
                 </CardDescription>
               </CardHeader>
               {/* <CardFooter>
@@ -232,13 +247,13 @@ export default function Dashboard() {
                           Informações
                         </TableHead>
                       </TableRow>
-                      {precisoAjuda && precisoAjuda.length > 0 ? (
-                        precisoAjuda.map((element) => {
+                      {queroAjudar && queroAjudar.length > 0 ? (
+                        queroAjudar.map((element) => {
                           return (
                             <TableRow className="bg-accent" key={element.ID}>
                               <TableCell>
                                 <div className="font-semibold">
-                                  {element.ASSUNTO}
+                                  {element.EMAIL}
                                 </div>
                               </TableCell>
                               <TableCell>
@@ -249,14 +264,13 @@ export default function Dashboard() {
                               <TableCell className="text-right">
                                 <Button
                                   onClick={() =>
-                                    handleClick({
+                                    handleClick2({
                                       id: element.ID,
-                                      title: element.ASSUNTO,
                                       name: element.NAME,
                                     })
                                   }
                                 >
-                                  Preciso de Ajuda
+                                  Doações
                                 </Button>
                               </TableCell>
                             </TableRow>
@@ -277,7 +291,7 @@ export default function Dashboard() {
           </Tabs>
         </div>
       </main>
-      {info &&
+      {infoPrecisoAjuda &&
         precisoAjuda?.map((element) => (
           <div
             key={element.ID}
@@ -320,7 +334,7 @@ export default function Dashboard() {
                 </p>
                 <div className="flex flex-col gap-1">
                   <p className="font-bold">O que você sente?</p>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     {element.TREMOR && <p className="font-semibold">Tremor</p>}
                     {element.CANSACO && (
                       <p className="font-semibold">Cansaço</p>
@@ -365,16 +379,56 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col justify-center font-bold items-center">
-                <p>Conseguiu entrar em contato com pessoa?</p>
-                <div className="flex items-center justify-center gap-10 mt-2">
-                  <Button className="bg-green-600 hover:bg-green-700 cursor-pointer">
-                    <Check />
-                  </Button>
-                  <Button className="bg-red-600 hover:bg-red-700 cursor-pointer">
-                    <X />
-                  </Button>
+            </div>
+          </div>
+        ))}
+
+      {infoQueroAjudar &&
+        queroAjudar?.map((element) => (
+          <div
+            key={element.ID}
+            className="absolute flex top-0 right-0 w-full h-full items-center justify-center"
+          >
+            <div className="flex border-2 border-zinc-700 bg-[#18181b] text-zinc-100 rounded-lg flex-col p-10 gap-4">
+              <div className="flex justify-between gap-30 items-center">
+                <p className="text-xl font-bold">
+                  Nome: <span className="font-semibold">{element.NAME}</span>
+                </p>
+                <X onClick={handleClose2} className="cursor-pointer" />
+              </div>
+              <div className="flex items-center justify-center gap-10">
+                <div className="flex flex-col gap-2">
+                  <p className="font-bold">
+                    E-mail:{" "}
+                    <span className="font-semibold">{element.EMAIL}</span>
+                  </p>
+                  <p className="font-bold">
+                    Telefone:{" "}
+                    <span className="font-semibold">{element.TELEFONE}</span>
+                  </p>
                 </div>
+                <div className="w-0.5 h-10 bg-zinc-100" />
+                <div className="flex flex-col gap-2">
+                  <p className="font-bold">
+                    Cidade:{" "}
+                    <span className="font-semibold">{element.CIDADE}</span>
+                  </p>
+                  <p className="font-bold">
+                    Estado:{" "}
+                    <span className="font-semibold">{element.ESTADO}</span>
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <p className="font-bold">
+                  Valor:{" "}
+                  <span className="font-semibold">
+                    {Number(element.VALOR).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </span>
+                </p>
               </div>
             </div>
           </div>

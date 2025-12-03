@@ -231,7 +231,7 @@ export default function HomePage() {
 
           <div className="flex items-center gap-4 md:grow-0 sm:ml-16 sm:mt-5">
             <img
-              src={`http://localhost:3000${user?.institution.IMAGE}` || minion}
+              src={user?.IMAGE ? `http://localhost:3000${user?.IMAGE}` : minion}
               alt="avatar"
               className="w-20 h-20 rounded-full max-[900px]:hidden"
             />
