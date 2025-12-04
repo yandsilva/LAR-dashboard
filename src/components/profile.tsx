@@ -23,7 +23,7 @@ export default function Profile() {
                 <Label>Profile Image</Label>
                 <img
                   src={
-                    `https://lar-dashboard.vercel.app/${user?.IMAGE}` || minion
+                    `https://lar-dashboard.vercel.app${user?.IMAGE}` || minion
                   }
                   alt="avatar"
                   className="w-full h-auto sm:w-72 sm:h-72 rounded-2xl"
