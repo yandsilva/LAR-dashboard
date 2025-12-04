@@ -22,7 +22,9 @@ export default function Profile() {
               <div className="grid gap-2 w-full sm:w-72">
                 <Label>Profile Image</Label>
                 <img
-                  src={`http://localhost:3000${user?.IMAGE}` || minion}
+                  src={
+                    `https://lar-dashboard.vercel.app/${user?.IMAGE}` || minion
+                  }
                   alt="avatar"
                   className="w-full h-auto sm:w-72 sm:h-72 rounded-2xl"
                 />
